@@ -1,21 +1,25 @@
+"use client";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
-import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
-import {cookies} from "next/headers";
+import {createClientComponentClient, User} from "@supabase/auth-helpers-nextjs";
+import {useEffect, useState} from "react";
 
-export default async function Header({date}: { date: string }) {
-  const supabase = createServerComponentClient({cookies})
+export default function Header() {
+  const supabase = createClientComponentClient();
+  const [user, setUser] = useState<User | null>();
 
-  const {
-    data: {user},
-  } = await supabase.auth.getUser()
+  useEffect(() => {
+    supabase.auth.getUser().then((response) => {
+      setUser(response.data.user);
+    })
+  }, []);
 
   return (
     <header
       className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <a href="/" className="d-flex gap-3 align-items-center col-md-7 mb-2 mb-md-0 text-dark text-decoration-none">
         <img src="marker.png" alt="ADEPS logo" width="32" height="32"/>
-        <span className="fs-4">ADEPS walks on {date}</span>
+        <span className="fs-4">ADEPS walks</span>
       </a>
 
       <div className="col-md-5 text-end">

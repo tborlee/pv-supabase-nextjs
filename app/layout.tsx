@@ -2,6 +2,7 @@ import './globals.css'
 import { Analytics } from '@vercel/analytics/react';
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import Header from "@/components/Header";
 config.autoAddCss = false
 
 export const metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main className="container">
+          <Header />
           {children}
           <Analytics />
         </main>
