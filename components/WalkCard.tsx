@@ -119,7 +119,7 @@ export default function WalkCard({walk}) {
                 icon={faDumbbell}
                 description="Petits exercices réalisables sur le parcours de 5&nbsp;km"
               />
-              {walk.transport !== undefined && (
+              {walk.transport !== null && (
                 <div className="col">
                   <div className="row is-mobile">
                     <div className="col-auto">
