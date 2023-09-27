@@ -2,8 +2,9 @@
 import {useEffect, useState} from "react";
 import WalkCard from "@/components/WalkCard";
 import {getDistance} from "geolib";
+import {Walk} from "@/types";
 
-const compareWalks = (a, b) => {
+const compareWalks = (a: Walk, b: Walk) => {
   if (
     (a.status === "OK" || a.status === "Modified") &&
     (b.status === "OK" || b.status === "Modified")
@@ -32,7 +33,7 @@ const compareWalks = (a, b) => {
   return 0;
 };
 
-async function sortWalks(position, walks) {
+async function sortWalks(position: GeolocationCoordinates, walks: Walk[]) {
   const sorted = [...walks];
   for (let i = 0; i < walks.length; i++) {
     const walk = walks[i];
@@ -49,15 +50,14 @@ async function sortWalks(position, walks) {
   return walks;
 }
 
-export default function WalksGeo({walks}) {
-  const [sorted, setSorted] = useState([]);
-  const [location, setLocation] = useState();
+export default function WalksGeo({walks}: { walks: Walk[] }) {
+  const [sorted, setSorted] = useState<Walk[]>([]);
+  const [location, setLocation] = useState<GeolocationCoordinates>();
 
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(({coords}) => {
-        const {latitude, longitude} = coords;
-        setLocation({latitude, longitude});
+        setLocation(coords);
       })
     }
   }, []);

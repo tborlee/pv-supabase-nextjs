@@ -1,11 +1,12 @@
 import React from "react";
+import {Walk} from "@/types";
 
 const mapboxAccessToken = process.env.MAPBOX_TOKEN || process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const mapboxUsername = process.env.MAPBOX_USERNAME || process.env.NEXT_PUBLIC_MAPBOX_USERNAME;
 const mapStyle: string | undefined = process.env.MAPBOX_LIGHT_STYLE || process.env.NEXT_PUBLIC_MAPBOX_LIGHT_STYLE;
 const res = "";
 
-const WalkThumbnail = (walk) => {
+const WalkThumbnail = ({walk}: { walk: Walk }) => {
   const position = `${walk.longitude},${walk.latitude}`;
   return (
     <img

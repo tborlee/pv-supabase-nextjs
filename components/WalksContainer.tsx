@@ -3,17 +3,17 @@ import {cookies} from "next/headers";
 import WalksStatic from "@/components/WalksStatic";
 import WalksGeo from "@/components/WalksGeo";
 
-export default async function WalksContainer({date}) {
+export default async function WalksContainer({date}: { date: string }) {
 
   const supabase = createServerComponentClient({cookies})
 
   const {data: walks} = await supabase.from('walks').select().eq('date', date)
-  
-  if(walks?.length === 0) {
+
+  if (!walks || walks.length === 0) {
     return (
       <div>Sorry, no walks scheduled on that date.</div>
     )
   } else {
-    return <WalksGeo walks={walks} />
+    return <WalksStatic walks={walks}/>
   }
 }
