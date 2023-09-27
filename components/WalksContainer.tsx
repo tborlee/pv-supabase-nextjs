@@ -14,6 +14,6 @@ export default async function WalksContainer({date}) {
       <div>Sorry, no walks scheduled on that date.</div>
     )
   } else {
-    return <WalksStatic walks={walks} />
+    return <WalksGeo walks={walks} />
   }
 }

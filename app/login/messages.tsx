@@ -9,14 +9,14 @@ export default function Messages() {
   return (
     <>
       {error && (
-        <p className="mt-4 p-4 bg-neutral-900 text-neutral-300 text-center">
+        <div className="alert alert-danger" role="alert">
           {error}
-        </p>
+        </div>
       )}
       {message && (
-        <p className="mt-4 p-4 bg-neutral-900 text-neutral-300 text-center">
+        <div className="alert alert-info" role="alert">
           {message}
-        </p>
+        </div>
       )}
     </>
   )

@@ -1,7 +1,7 @@
 export default function LogoutButton() {
   return (
     <form action="/auth/sign-out" method="post">
-      <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
+      <button className="btn btn-light text-dark me-2">
         Logout
       </button>
     </form>
