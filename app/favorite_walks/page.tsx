@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <>
       <h1>Favorite Walks</h1>
-      <FavoriteWalks />
+      <FavoriteWalks/>
     </>
   )
 }

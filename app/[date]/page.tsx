@@ -3,9 +3,9 @@ import WalksContainer from "@/components/WalksContainer";
 import supabase from "@/utils/supabase";
 
 export async function generateStaticParams() {
-  const { data: dates } = await supabase.from('distinct_walk_dates').select('date')
+  const {data: dates} = await supabase.from('distinct_walk_dates').select('date')
 
-  return dates!.map(({ date }) => ({
+  return dates!.map(({date}) => ({
     date,
   }))
 }

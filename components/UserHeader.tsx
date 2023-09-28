@@ -3,6 +3,8 @@ import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
 import {createClientComponentClient, Session, User} from "@supabase/auth-helpers-nextjs";
 import {useEffect, useState} from "react";
+import {Simulate} from "react-dom/test-utils";
+import load = Simulate.load;
 
 export default function UserHeader() {
   const supabase = createClientComponentClient();
@@ -10,11 +12,13 @@ export default function UserHeader() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then((response) => {
-      setSession(response.data.session);
-      setLoading(false);
-    }).catch(() => setLoading(false))
-  }, []);
+    if (loading) {
+      supabase.auth.getSession().then((response) => {
+        setSession(response.data.session);
+        setLoading(false);
+      }).catch(() => setLoading(false))
+    }
+  }, [supabase, loading]);
 
   if (loading) {
     return (

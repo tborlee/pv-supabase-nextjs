@@ -47,7 +47,7 @@ export default async function WalksContainer({date}: { date: string }) {
           {previousDate && <Link href={previousDate} className="btn btn-outline-primary">{previousDate}</Link>}
           {nextDate && <Link href={nextDate} className="btn btn-outline-primary">{nextDate}</Link>}
         </div>
-        <Map walks={walks} />
+        <Map walks={walks}/>
         <WalksStatic walks={walks}/>
       </>
 

@@ -24,7 +24,7 @@ export default function WalkFavorite({walk, onDelete}: { walk: Walk, onDelete?: 
         setFavorite(favorite);
       }
       setLoading(false);
-    } catch(error) {
+    } catch (error) {
       console.error(error);
       setLoading(false);
     }
@@ -32,7 +32,8 @@ export default function WalkFavorite({walk, onDelete}: { walk: Walk, onDelete?: 
 
   if (favorite) {
     return (
-      <button type="submit" disabled={loading} className="btn btn-sm btn-dark" onClick={onDelete ? onDelete : () => onChange(false)}>
+      <button type="submit" disabled={loading} className="btn btn-sm btn-dark"
+              onClick={onDelete ? onDelete : () => onChange(false)}>
         <FontAwesomeIcon icon={fav}/>
       </button>
     )

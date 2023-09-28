@@ -71,11 +71,11 @@ export default function WalksGeo({walks}: { walks: Walk[] }) {
     } else {
       setSorted(walks);
     }
-  }, [location]);
+  }, [location, walks]);
 
   return (
     <div>
-      <Map walks={walks} />
+      <Map walks={walks}/>
       {sorted?.map((walk, i) => <WalkCard key={i} walk={walk}/>)}
     </div>
   )

@@ -8,7 +8,7 @@ export default function FavoriteWalks() {
   const supabase = createClientComponentClient();
   const [walks, setWalks] = useState<Walk[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState();
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     if (loading) {
@@ -22,12 +22,12 @@ export default function FavoriteWalks() {
           setWalks(unwrapped);
         }
         if (response.error) {
-          setError(error);
+          setError(response.error.message);
         }
         setLoading(false)
       })
     }
-  }, [supabase]);
+  }, [supabase, loading]);
 
   const deleteFavoriteWalk = async (id: number) => {
     try {
@@ -62,7 +62,7 @@ export default function FavoriteWalks() {
   if (walks.length === 0) {
     return (
       <div className="alert alert-info" role="alert">
-        You don't have any favorite walks yet.
+        You don&apos;t have any favorite walks yet.
       </div>
     )
   }

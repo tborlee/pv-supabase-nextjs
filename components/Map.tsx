@@ -1,6 +1,6 @@
 "use client"
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {MapContainer, TileLayer, Marker, Popup} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/images/marker-icon-2x.png";
@@ -17,11 +17,11 @@ const myIcon = L.icon({
   iconAnchor: [16, 32],
 });
 
-function Map({ walks }: MapProps) {
+function Map({walks}: MapProps) {
   return (
     <MapContainer
       className="is-hidden-mobile"
-      center={{ lat: 50.3155646, lng: 5.009682 }}
+      center={{lat: 50.3155646, lng: 5.009682}}
       zoom={8}
     >
       <TileLayer
@@ -41,7 +41,7 @@ function Map({ walks }: MapProps) {
           >
             <Popup>
               {walk.locality} ({walk.entity})
-              <br />
+              <br/>
               <a href={`#walk-${walk.id}`}>Détails</a>{" "}
             </Popup>
           </Marker>

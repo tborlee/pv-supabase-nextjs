@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   const supabase = createRouteHandlerClient({cookies})
 
   // @ts-ignore
-  const {data: {session: { user }}} = await supabase.auth.getSession();
+  const {data: {session: {user}}} = await supabase.auth.getSession();
 
   const response = await supabase.from("favorite_walks").upsert({walk_id, user_id: user.id}).select()
 
