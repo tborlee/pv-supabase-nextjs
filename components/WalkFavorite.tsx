@@ -3,12 +3,23 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar as fav} from "@fortawesome/free-solid-svg-icons/faStar";
 import {faStar as unfav} from "@fortawesome/free-regular-svg-icons/faStar";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Walk} from "@/types";
+import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 
 export default function WalkFavorite({walk, onDelete}: { walk: Walk, onDelete?: () => void }) {
+  const supabase = createClientComponentClient();
   const [favorite, setFavorite] = useState<boolean>(walk.favorite || false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [logged,setLogged] = useState<boolean>(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then((response) => {
+      if (response.data.session) {
+        setLogged(true);
+      }
+    })
+  }, []);
 
   const onChange = async (favorite: boolean) => {
     setLoading(true);
@@ -28,6 +39,10 @@ export default function WalkFavorite({walk, onDelete}: { walk: Walk, onDelete?: 
       console.error(error);
       setLoading(false);
     }
+  }
+  
+  if (!logged) {
+    return null;
   }
 
   if (favorite) {
