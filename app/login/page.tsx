@@ -26,7 +26,6 @@ export default function Login() {
           Sign Up
         </button>
         <Messages />
-        <p className="mt-5 mb-3 text-muted">© 2017–2021</p>
       </form>
     </div>
 

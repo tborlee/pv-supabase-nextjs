@@ -14,8 +14,9 @@ import {faDumbbell} from "@fortawesome/free-solid-svg-icons";
 import WalkThumbnail from "@/components/WalkThumbnail";
 import {Walk} from "@/types";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import WalkFavorite from "@/components/WalkFavorite";
 
-export default function WalkCard({walk}: { walk: Walk }) {
+export default function WalkCard({walk, onDelete}: { walk: Walk, onDelete?: () => void }) {
   return (
     <div
       id={`walk-${walk.id}`}
@@ -37,6 +38,8 @@ export default function WalkCard({walk}: { walk: Walk }) {
             <span className="is-hidden-mobile">({walk.province})</span>
           </div>
           <div className="col-auto">
+            <WalkFavorite walk={walk} onDelete={onDelete}/>
+            &nbsp;
             <WalkBadge walk={walk}/>
           </div>
         </div>
@@ -142,7 +145,7 @@ export default function WalkCard({walk}: { walk: Walk }) {
 }
 
 const WalkInfo = ({info, icon, description}: { info: boolean, icon: IconProp, description: string }) => {
-  if (info === true) {
+  if (info) {
     return (
       <div className="col-6">
         <div className="row is-mobile">

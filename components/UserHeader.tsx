@@ -28,7 +28,7 @@ export default function UserHeader() {
     return (
       <>
         <ul className="nav">
-          <li><Link href="/favorites" className="nav-link px-2 link-dark">Favorites</Link></li>
+          <li><Link href="/favorite_walks" className="nav-link px-2 link-dark">Favorites</Link></li>
         </ul>
         <form action="/auth/sign-out" method="post">
           <button className="btn btn-sm btn-light text-dark me-2">

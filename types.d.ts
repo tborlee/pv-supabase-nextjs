@@ -28,4 +28,5 @@ export interface Walk {
   latitude: number;
   longitude: number;
   distance: number;
+  favorite?: boolean;
 }
