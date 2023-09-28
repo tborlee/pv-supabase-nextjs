@@ -1,17 +1,17 @@
 "use client";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
-import {createClientComponentClient, User} from "@supabase/auth-helpers-nextjs";
+import {createClientComponentClient, Session, User} from "@supabase/auth-helpers-nextjs";
 import {useEffect, useState} from "react";
 
 export default function UserHeader() {
   const supabase = createClientComponentClient();
-  const [user, setUser] = useState<User | null>();
+  const [session, setSession] = useState<Session | null>();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    supabase.auth.getUser().then((response) => {
-      setUser(response.data.user);
+    supabase.auth.getSession().then((response) => {
+      setSession(response.data.session);
       setLoading(false);
     }).catch(() => setLoading(false))
   }, []);
@@ -24,7 +24,7 @@ export default function UserHeader() {
     );
   }
 
-  if (user) {
+  if (session) {
     return (
       <>
         <ul className="nav">

@@ -1,6 +1,5 @@
 import {createRouteHandlerClient} from '@supabase/auth-helpers-nextjs'
 import {cookies} from 'next/headers'
-import {NextResponse} from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -11,9 +10,9 @@ export async function DELETE(request: Request) {
 
   const response = await supabase.from("favorite_walks").delete().eq("walk_id", walk_id)
 
-  if (redirect) {
-    return NextResponse.redirect(`${requestUrl.origin}/favorite_walks`)
+  if (!response.error) {
+    return new Response(null, {status: 204});
   } else {
-    return NextResponse.json({});
+    return new Response(JSON.stringify({error: "Cannot remove favorite walk"}), {status: 500})
   }
 }
