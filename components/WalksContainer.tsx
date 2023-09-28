@@ -2,6 +2,19 @@ import WalksStatic from "@/components/WalksStatic";
 import WalksGeo from "@/components/WalksGeo";
 import Link from "next/link";
 import supabase from "@/utils/supabase";
+import dynamic from "next/dynamic";
+import "./Map.css";
+
+const Map = dynamic(() => import("@/components/Map"), {
+  loading: () => (
+    <div className="d-flex justify-content-center align-items-center leaflet-container">
+      <div className="spinner-grow" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  ),
+  ssr: false
+})
 
 function findDateIndex(dates: any[] | null, currentDate: string) {
   if (!dates) return -1;
@@ -34,6 +47,7 @@ export default async function WalksContainer({date}: { date: string }) {
           {previousDate && <Link href={previousDate} className="btn btn-outline-primary">{previousDate}</Link>}
           {nextDate && <Link href={nextDate} className="btn btn-outline-primary">{nextDate}</Link>}
         </div>
+        <Map walks={walks} />
         <WalksStatic walks={walks}/>
       </>
 
