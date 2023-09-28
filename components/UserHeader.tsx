@@ -1,31 +1,13 @@
-"use client";
 import Link from "next/link";
-import {createClientComponentClient, Session} from "@supabase/auth-helpers-nextjs";
-import {useEffect, useState} from "react";
+import {createServerSupabaseClient} from "@/utils/supabase";
 
-export default function UserHeader() {
-  const supabase = createClientComponentClient();
-  const [session, setSession] = useState<Session | null>();
-  const [loading, setLoading] = useState<boolean>(true);
+export const dynamic = 'force-dynamic'
 
-  useEffect(() => {
-    if (loading) {
-      supabase.auth.getSession().then((response) => {
-        setSession(response.data.session);
-        setLoading(false);
-      }).catch(() => setLoading(false))
-    }
-  }, [supabase, loading]);
+export default async function UserHeader() {
+  const supabase = createServerSupabaseClient();
+  const response = await supabase.auth.getSession();
 
-  if (loading) {
-    return (
-      <div className="spinner-border spinner-border text-secondary" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    );
-  }
-
-  if (session) {
+  if (response.data.session) {
     return (
       <>
         <ul className="nav">
