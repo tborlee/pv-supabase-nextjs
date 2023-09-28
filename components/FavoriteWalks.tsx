@@ -37,7 +37,9 @@ export default function FavoriteWalks() {
           walk_id: id
         })
       });
-      setWalks(walks.filter((x) => x.id != id));
+      if (response.ok) {
+        setWalks(walks.filter((x) => x.id != id));
+      }
     } catch (error) {
       console.log('error', error)
     }
