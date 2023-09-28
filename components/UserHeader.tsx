@@ -27,7 +27,9 @@ export default function UserHeader() {
   if (user) {
     return (
       <>
-        <span>Hey, {user.email}!</span>
+        <ul className="nav">
+          <li><Link href="/favorites" className="nav-link px-2 link-dark">Favorites</Link></li>
+        </ul>
         <form action="/auth/sign-out" method="post">
           <button className="btn btn-sm btn-light text-dark me-2">
             Logout
