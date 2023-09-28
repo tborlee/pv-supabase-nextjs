@@ -1,8 +1,6 @@
 import Link from "next/link";
 import {createServerSupabaseClient} from "@/utils/supabase";
 
-export const dynamic = 'force-dynamic'
-
 export default async function UserHeader() {
   const supabase = createServerSupabaseClient();
   const response = await supabase.auth.getSession();
