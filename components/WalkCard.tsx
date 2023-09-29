@@ -147,7 +147,7 @@ export default function WalkCard({walk, onDelete}: { walk: Walk, onDelete?: () =
 const WalkInfo = ({info, icon, description}: { info: boolean, icon: IconProp, description: string }) => {
   if (info) {
     return (
-      <div className="col-6">
+      <div className="col-6-md">
         <div className="row is-mobile">
           <div className="col-auto">
             <FontAwesomeIcon icon={icon} fixedWidth={true}/>
