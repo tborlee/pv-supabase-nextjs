@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 import WalkCard from "@/components/WalkCard";
 import {getDistance} from "geolib";
 import {Walk} from "@/types";
-import Map from "@/components/Map";
 
 const compareWalks = (a: Walk, b: Walk) => {
   if (
@@ -75,7 +74,6 @@ export default function WalksGeo({walks}: { walks: Walk[] }) {
 
   return (
     <div>
-      <Map walks={walks}/>
       {sorted?.map((walk, i) => <WalkCard key={i} walk={walk}/>)}
     </div>
   )
