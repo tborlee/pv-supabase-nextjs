@@ -53,9 +53,15 @@ export default async function WalksContainer({date}: { date?: string }) {
   return (
     <>
       <div className="d-flex justify-content-between my-2">
-        {previousDate && <Link href={previousDate} className="btn btn-outline-primary">{previousDate}</Link>}
-        <h4>{date || walks[0].date}</h4>
-        {nextDate && <Link href={nextDate} className="btn btn-outline-primary">{nextDate}</Link>}
+        <div>
+          {previousDate && <Link href={previousDate} className="btn btn-outline-primary">{previousDate}</Link>}
+        </div>
+        <div>
+          <h4>{date || walks[0].date}</h4>
+        </div>
+        <div>
+          {nextDate && <Link href={nextDate} className="btn btn-outline-primary">{nextDate}</Link>}
+        </div>
       </div>
       <Map walks={walks}/>
       <WalksStatic walks={walks}/>
