@@ -1,5 +1,4 @@
 import WalksStatic from "@/components/WalksStatic";
-import WalksGeo from "@/components/WalksGeo";
 import Link from "next/link";
 import supabase from "@/utils/supabase";
 import dynamic from "next/dynamic";
@@ -27,31 +26,39 @@ function findDateIndex(dates: any[] | null, currentDate: string) {
   return -1;
 }
 
-export default async function WalksContainer({date}: { date: string }) {
+export default async function WalksContainer({date}: { date?: string }) {
 
-  const {data: walks} = await supabase.from('walks').select().eq('date', date)
-  const {data: dates} = await supabase.from('distinct_walk_dates').select('date')
+  let response;
 
-  const currentIndex = findDateIndex(dates, date);
-  const previousDate = dates && currentIndex >= 1 ? dates[currentIndex - 1].date : null;
-  const nextDate = dates && currentIndex !== -1 && currentIndex < dates?.length - 1 ? dates[currentIndex + 1].date : null;
+  if (date) {
+    response = await supabase.from('walks').select().eq('date', date)
+  } else {
+    response = await supabase.from('next_walks').select()
+  }
+
+  const walks = response.data;
 
   if (!walks || walks.length === 0) {
     return (
       <div>Sorry, no walks scheduled on that date.</div>
     )
-  } else {
-    return (
-      <>
-        <div className="d-flex justify-content-between my-2">
-          {previousDate && <Link href={previousDate} className="btn btn-outline-primary">{previousDate}</Link>}
-          <h4>{date}</h4>
-          {nextDate && <Link href={nextDate} className="btn btn-outline-primary">{nextDate}</Link>}
-        </div>
-        <Map walks={walks}/>
-        <WalksStatic walks={walks}/>
-      </>
-
-    )
   }
+
+  const {data: dates} = await supabase.from('distinct_walk_dates').select('date')
+
+  const currentIndex = findDateIndex(dates, date || walks[0].date);
+  const previousDate = dates && currentIndex >= 1 ? dates[currentIndex - 1].date : null;
+  const nextDate = dates && currentIndex !== -1 && currentIndex < dates?.length - 1 ? dates[currentIndex + 1].date : null;
+
+  return (
+    <>
+      <div className="d-flex justify-content-between my-2">
+        {previousDate && <Link href={previousDate} className="btn btn-outline-primary">{previousDate}</Link>}
+        <h4>{date || walks[0].date}</h4>
+        {nextDate && <Link href={nextDate} className="btn btn-outline-primary">{nextDate}</Link>}
+      </div>
+      <Map walks={walks}/>
+      <WalksStatic walks={walks}/>
+    </>
+  )
 }
