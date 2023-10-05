@@ -1,12 +1,10 @@
 import {serve} from 'https://deno.land/std@0.177.0/http/server.ts'
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2'
-import {Database, Tables} from '../../../database.types.ts'
-import {APIRecord} from "../../../odwb.types";
 
 const baseUrl = "https://www.odwb.be/api/records/1.0/search/?dataset=points-verts-de-ladeps"
 const pageSize = 500
 
-function convertWalk(apiWalk: APIRecord): Tables<'walks'> {
+function convertWalk(apiWalk) {
   const fields = apiWalk.fields
   return {
     id: fields.id,
@@ -75,7 +73,7 @@ async function retrieveWalks(baseUrl: string) {
 
 serve(async (_req: Request) => {
   try {
-    const supabase = createClient<Database>(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '')
+    const supabase = createClient(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '')
 
     const {data, error} = await supabase.rpc('max_walk_updated_at')
 
