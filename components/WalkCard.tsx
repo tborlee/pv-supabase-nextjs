@@ -170,31 +170,31 @@ const WalkDistance = ({walk}: { walk: Walk }) => {
 };
 
 const WalkBadge = ({walk}: { walk: Walk }) => {
-  if (walk.status === "OK") {
+  if (walk.status === "ok") {
     return (
       <span
         className="badge rounded-pill bg-success"
         title="Matches the paper calendar"
       >
-        {walk.status}
+        OK
       </span>
     );
-  } else if (walk.status === "Modified") {
+  } else if (walk.status === "modified") {
     return (
       <span
         className="badge rounded-pill bg-warning"
         title="Modifié par rapport au calendrier papier"
       >
-        {walk.status}
+        Modified
       </span>
     );
-  } else if (walk.status === "Cancelled") {
+  } else if (walk.status === "cancelled") {
     return (
       <span
         className="badge rounded-pill bg-danger"
         title="This Point Vert is cancelled!"
       >
-        {walk.status}
+        Cancelled
       </span>
     );
   } else {
