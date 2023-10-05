@@ -1,8 +1,6 @@
 create type walk_activity as enum ('walk', 'orientation');
 create type walk_status as enum ('ok', 'modified', 'cancelled');
 
-create extension postgis with schema extensions;
-
 create table if not exists walks
 (
     id                   integer primary key    not null,
@@ -12,7 +10,6 @@ create table if not exists walks
     entity               character varying(25)  not null,
     latitude             numeric                not null,
     longitude            numeric                not null,
-    geopoint             geography              not null,
     ign                  character varying(6)   null,
     locality             character varying(50)  not null,
     transport            character varying(200) null,
