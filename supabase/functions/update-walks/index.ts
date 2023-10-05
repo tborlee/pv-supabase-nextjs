@@ -1,45 +1,48 @@
 import {serve} from 'https://deno.land/std@0.177.0/http/server.ts'
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2'
+import {Database, Tables} from '../../../database.types.ts'
+import {APIRecord} from "../../../odwb.types";
 
-const baseUrl = "https://www.odwb.be/api/records/1.0/search/?dataset=points-verts-de-ladeps";
-const pageSize = 500;
+const baseUrl = "https://www.odwb.be/api/records/1.0/search/?dataset=points-verts-de-ladeps"
+const pageSize = 500
 
-function convertWalk(apiWalk) {
+function convertWalk(apiWalk: APIRecord): Tables<'walks'> {
   const fields = apiWalk.fields
-  const walk = {}
-  walk.id = fields.id
-  walk.activity = fields.ativite === "Marche" ? "walk" : "orientation"
-  walk.organizer = fields.groupement
-  walk.entity = fields.entite
-  walk.latitude = fields.latitude
-  walk.longitude = fields.longitude
-  walk.ign = fields.ign
-  walk.locality = fields.localite
-  walk.transport = fields.gare
-  walk.meeting_point_info = fields.infos_rendez_vous
-  walk.province = fields.province
-  walk.contact_last_name = fields.nom
-  walk.contact_first_name = fields.prenom
-  walk.contact_phone_number = fields.gsm
-  walk.status = fields.statut === "OK" ? "ok" : fields.statut === "Modifié" ? "modified" : "cancelled"
-  walk.meeting_point = fields.lieu_de_rendez_vous
-  walk.date = fields.date
-  walk.fifteen_km = fields['15km'] === "Oui"
-  walk.wheelchair = fields.pmr === "Oui"
-  walk.extra_orientation = fields.orientation === "Oui"
-  walk.guided = fields.balade_guidee === "Oui"
-  walk.extra_walk = fields['10km'] === "Oui"
-  walk.bike = fields.velo === "Oui"
-  walk.mountain_bike = fields.vtt === "Oui"
-  walk.water_supply = fields.ravitaillement === "Oui"
-  walk.be_wapp = fields.bewapp === "Oui"
-  walk.adep_sante = fields.adep_sante === "Oui"
-  walk.created_at = apiWalk.record_timestamp
-  walk.updated_at = apiWalk.record_timestamp
-  return walk;
+  return {
+    id: fields.id,
+    activity: fields.activite === "Marche" ? "walk" : "orientation",
+    organizer: fields.groupement,
+    entity: fields.entite,
+    latitude: fields.latitude,
+    longitude: fields.longitude,
+    ign: fields.ign,
+    locality: fields.localite,
+    transport: fields.gare,
+    meeting_point_info: fields.infos_rendez_vous,
+    province: fields.province,
+    contact_last_name: fields.nom,
+    contact_first_name: fields.prenom,
+    contact_phone_number: fields.gsm,
+    status: fields.statut === "OK" ? "ok" : fields.statut === "Modifié" ? "modified" : "cancelled",
+    meeting_point: fields.lieu_de_rendez_vous,
+    date: fields.date,
+    fifteen_km: fields['15km'] === "Oui",
+    wheelchair: fields.pmr === "Oui",
+    stroller: fields.poussettes === "Oui",
+    extra_orientation: fields.orientation === "Oui",
+    guided: fields.balade_guidee === "Oui",
+    extra_walk: fields['10km'] === "Oui",
+    bike: fields.velo === "Oui",
+    mountain_bike: fields.vtt === "Oui",
+    water_supply: fields.ravitaillement === "Oui",
+    be_wapp: fields.bewapp === "Oui",
+    adep_sante: fields.adep_sante === "Oui",
+    created_at: apiWalk.record_timestamp,
+    updated_at: apiWalk.record_timestamp,
+  }
 }
 
-async function retrieveWalks() {
+async function retrieveWalks(baseUrl: string) {
   const walks = []
   let finished = false
   let start = 0
@@ -67,15 +70,37 @@ async function retrieveWalks() {
       throw Error("Cannot retrieve walks from API: " + response.status)
     }
   }
-  return walks;
+  return walks
 }
 
 serve(async (_req: Request) => {
   try {
-    const supabase = createClient(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '')
+    const supabase = createClient<Database>(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '')
 
-    const walks = await retrieveWalks()
-    const insert = await supabase.from('walks').upsert(walks)
+    const {data, error} = await supabase.rpc('max_walk_updated_at')
+
+    if (error) {
+      return new Response(JSON.stringify(error), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      })
+    }
+
+    let url;
+
+    if (!data) {
+      console.info("No walks in database yes, fetching them all from the ODWB API...")
+      url = baseUrl;
+    } else {
+      console.info("We already have walks in database. Updating...")
+      url = `${baseUrl}&q=(record_timestamp+>${new Date(Date.parse(data)).toISOString()})`
+    }
+
+    const walks = await retrieveWalks(url)
+    const insert = await supabase.from('walks').insert(walks)
+    console.info("Walks inserted in database.")
 
     return new Response(JSON.stringify(insert), {
       status: 200,
