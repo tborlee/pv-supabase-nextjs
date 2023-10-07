@@ -6,7 +6,8 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(request: Request) {
   const {walk_id} = await request.json()
-  const supabase = createRouteHandlerClient({cookies})
+  const cookieStore = cookies()
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
 
   // @ts-ignore
   const {data: {session: {user}}} = await supabase.auth.getSession();

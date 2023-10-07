@@ -4,9 +4,9 @@ import {cookies} from 'next/headers'
 export const dynamic = 'force-dynamic'
 
 export async function DELETE(request: Request) {
-  const requestUrl = new URL(request.url)
   const {walk_id, redirect} = await request.json()
-  const supabase = createRouteHandlerClient({cookies})
+  const cookieStore = cookies()
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
 
   const response = await supabase.from("favorite_walks").delete().eq("walk_id", walk_id)
 
