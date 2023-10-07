@@ -19,7 +19,7 @@ export default function WalkFavorite({walk, onDelete}: { walk: Walk, onDelete?: 
         setLogged(true);
       }
     })
-  }, []);
+  }, [supabase]);
 
   const onChange = async (favorite: boolean) => {
     setLoading(true);
