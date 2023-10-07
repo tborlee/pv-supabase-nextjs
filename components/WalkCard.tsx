@@ -24,7 +24,7 @@ export default function WalkCard({walk, onDelete}: { walk: Walk, onDelete?: () =
       className="card mb-4 mt-4"
     >
       <div className="card-header">
-        <div className="row">
+        <div className="row g-0  align-items-center">
           <div className="col-auto">
             <FontAwesomeIcon
               icon={
@@ -72,47 +72,47 @@ export default function WalkCard({walk, onDelete}: { walk: Walk, onDelete?: () =
             <WalkInfo
               info={walk.fifteen_km}
               icon={faWalking}
-              description="Additional 15&nbsp;km route"
+              description="Parcours supplémentaire de 15&nbsp;km"
             />
             <WalkInfo
               info={walk.wheelchair}
               icon={faWheelchair}
-              description="5&nbsp;km route accessible to wheel chairs"
+              description="Parcours de 5&nbsp;km accessible aux PMRs accompagnées"
             />
             <WalkInfo
               info={walk.stroller}
               icon={faBabyCarriage}
-              description="Route accessible to strollers"
+              description="Parcours de 5&nbsp;km accessible aux landaus"
             />
             <WalkInfo
               info={walk.extra_orientation}
               icon={faCompass}
-              description="Additional orientation route of +/- 8&nbsp;km"
+              description="Parcours supplémentaire d'orientation de +/- 8&nbsp;km Cartes I.G.N"
             />
             <WalkInfo
               info={walk.guided}
               icon={faBinoculars}
-              description="Nature Guided Walk"
+              description="Balade guidée Nature"
             />
             <WalkInfo
               info={walk.extra_walk}
               icon={faWalking}
-              description="Additional walk route of +/- 10&nbsp;km"
+              description="Parcours supplémentaire de marche de +/- 10&nbsp;km"
             />
             <WalkInfo
               info={walk.bike}
               icon={faBiking}
-              description="Additional bike route of +/- 20&nbsp;km"
+              description="Parcours supplémentaire de vélo de +/- 20&nbsp;km"
             />
             <WalkInfo
               info={walk.mountain_bike}
               icon={faBiking}
-              description="Additionalm route for mountain bike"
+              description="Parcours supplémentaire de vélo tout-terrain"
             />
             <WalkInfo
               info={walk.water_supply}
               icon={faWater}
-              description="Water Supply"
+              description="Ravitaillement"
             />
             <WalkInfo
               info={walk.be_wapp}
@@ -174,7 +174,7 @@ const WalkBadge = ({walk}: { walk: Walk }) => {
     return (
       <span
         className="badge rounded-pill bg-success"
-        title="Matches the paper calendar"
+        title="Correspond au calendrier papier"
       >
         OK
       </span>
@@ -185,16 +185,16 @@ const WalkBadge = ({walk}: { walk: Walk }) => {
         className="badge rounded-pill bg-warning"
         title="Modifié par rapport au calendrier papier"
       >
-        Modified
+        Modifié
       </span>
     );
   } else if (walk.status === "cancelled") {
     return (
       <span
         className="badge rounded-pill bg-danger"
-        title="This Point Vert is cancelled!"
+        title="Ce Point Vert est annulé !"
       >
-        Cancelled
+        Annulé
       </span>
     );
   } else {

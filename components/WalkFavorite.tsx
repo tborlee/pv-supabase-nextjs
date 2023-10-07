@@ -47,15 +47,15 @@ export default function WalkFavorite({walk, onDelete}: { walk: Walk, onDelete?: 
 
   if (favorite) {
     return (
-      <button type="submit" disabled={loading} className="btn btn-sm btn-dark"
+      <button type="submit" disabled={loading} className="btn btn-sm btn-link"
               onClick={onDelete ? onDelete : () => onChange(false)}>
-        <FontAwesomeIcon icon={fav}/>
+        <FontAwesomeIcon icon={fav} fixedWidth color="orange" />
       </button>
     )
   } else {
     return (
-      <button type="submit" disabled={loading} className="btn btn-sm btn-outline-dark" onClick={() => onChange(true)}>
-        <FontAwesomeIcon icon={unfav}/>
+      <button type="submit" disabled={loading} className="btn btn-sm btn-link" onClick={() => onChange(true)}>
+        <FontAwesomeIcon icon={unfav} fixedWidth color="black"/>
       </button>
     )
   }
