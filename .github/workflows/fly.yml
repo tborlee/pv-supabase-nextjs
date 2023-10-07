@@ -13,3 +13,8 @@ jobs:
       - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          MAPBOX_STYLE: ${{ vars.MAPBOX_STYLE }}
+          MAPBOX_TOKEN: ${{ vars.MAPBOX_TOKEN }}
+          MAPBOX_USERNAME: ${{ vars.MAPBOX_USERNAME }}
